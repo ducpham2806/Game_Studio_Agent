@@ -125,6 +125,19 @@ Not merged (CCGS-framework specific): hooks and `settings.json` rules, the 69 ge
 update-notice hook, and Windows hook forms. The hub's skills describe those steps so they work
 with the session's own tools.
 
+## Reference repos under review (not yet integrated)
+
+Read on 2026-11-14 at the commits below. Nothing from them is in the hub yet beyond what the
+table says; the integration choice is pending with the hub owner.
+
+| Repo | Commit | License | What it is | Relation to the hub |
+|------|--------|---------|------------|---------------------|
+| [patch-gg/pixelfx](https://github.com/patch-gg/pixelfx) | `5294518` (v0.3.1, 2026-11-12) | MIT (+ Hugo Duprez / Hollow Crown MIT notices; the Patch Pixel font is not MIT) | 244 code-drawn pixel-art VFX in 21 categories (fire, explosions, magic, impacts, UI, transitions, 12 full attack "moves"...), each one JS file drawing into a color + additive light buffer, seeded and loop-safe; "acts" carry wind-up, hit-stop, shake and target-reaction timing; Node-only tools render contact sheets/GIFs and export transparent sprite sheets with Aseprite-style JSON for Godot, Unity, Phaser, Defold, LÖVE, Bevy; a Claude skill with a draft → render → look → refine loop | New. Fits `/team-combat`, `/team-polish`, `/team-assets`, `game-feel` (hit-stop/shake data), `codeart2d`, `generate2dsprite` (FX sheets) and the one-shot rule "every figure drawn in code, no emoji". Its skill's "publish on Patch" section (installs a global CLI) would be dropped in favour of `itch-publish` / `steam-publish`. Its tools were read, not run, in this review. |
+| [msitarzewski/agency-agents](https://github.com/msitarzewski/agency-agents) | `8ae6164` (2026-11-08) | MIT | ~310 agent personas in 18 divisions; `game-development/` has 20 agents (Godot, Unity, Unreal, Roblox, Blender, designers, technical artist, audio) | **Already the source of 28 hub specialist skills** (the 20 game-development agents plus `ui-designer`, `backend-architect`, `code-reviewer`, `frontend-developer`, `content-creator`, `growth-hacker`, `seo-specialist`). The hub copies are 14-29-line summaries of 53-385-line originals, and miss the originals' rules, code and deliverables, including the 2026-10-18 correctness fixes. Game-relevant agents the hub lacks: `testing-accessibility-auditor`, `testing-evidence-collector`, `testing-reality-checker`, `design-ux-researcher`, `product-feedback-synthesizer`, `marketing-app-store-optimizer`, `marketing-reddit-community-builder`, `marketing-developer-community-builder`, `design-image-prompt-engineer`, `xr-immersive-developer`. |
+
+`generate2dsprite`, `video2dsprite`, `generate2dmap` and `codeart2d` come from neither repo; their
+source is still unrecorded.
+
 ## Other credited sources
 
 Some AGAS skills credit further projects inside their own text (for example `hajimehoshi/ebiten`,
