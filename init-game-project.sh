@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ============================================================================
 # init-game-project.sh
-# Khởi tạo nhanh cấu trúc Game Studio Agent (21 Agents + 118 Skills + Rules + Templates)
+# Khởi tạo nhanh cấu trúc Game Studio Agent (21 Agents + 125 Skills + Rules + Templates)
 # cho bất kỳ dự án game mới hoặc hiện có nào trên 12 Engines + Web thuần:
 # (godot4, unity, unreal5, roblox, ebitengine, phaser, pixijs, threejs, bevy, pygame, love2d, defold, web).
 # ============================================================================
@@ -91,7 +91,7 @@ if [[ ! -f "$TARGET_DIR/project.yaml" ]]; then
   echo "✅ Đã tạo project.yaml (Engine: $ENGINE_TYPE, Rigor: $RIGOR_MODE)"
 fi
 
-# 3. Đưa 21 Agents, 4 Rules và 118 Skills vào .claude/ của dự án
+# 3. Đưa 21 Agents, 4 Rules và 125 Skills vào .claude/ của dự án
 AGENT_COUNT=0
 for agent_file in "$STUDIO_HUB_DIR"/agents/*/*.md; do
   [[ -e "$agent_file" ]] || continue
@@ -129,6 +129,11 @@ for skill_dir in "$STUDIO_HUB_DIR"/skills/*/*; do
   SKILL_COUNT=$((SKILL_COUNT + 1))
 done
 echo "✅ Đã cài đặt toàn bộ $SKILL_COUNT Skills vào .claude/skills/"
+
+# Checkout pixelfx (skill pixelfx clone vào .pixelfx/ khi cần) không được commit vào repo game
+if ! grep -qxF ".pixelfx/" "$TARGET_DIR/.gitignore" 2>/dev/null; then
+  echo ".pixelfx/" >> "$TARGET_DIR/.gitignore"
+fi
 
 # 4. Sao chép Templates và khởi tạo Session Checkpoint active.md
 mkdir -p "$TARGET_DIR/docs/templates"

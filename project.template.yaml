@@ -1,6 +1,6 @@
 # ============================================================================
 # GAME STUDIO AGENT — PROJECT CONFIGURATION (`project.yaml`)
-# Nguồn cấu hình trung tâm cho toàn bộ 21 Agents, Subagents và 118 Skills
+# Nguồn cấu hình trung tâm cho toàn bộ 21 Agents, Subagents và 125 Skills
 # ============================================================================
 
 project:

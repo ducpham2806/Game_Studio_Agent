@@ -13,9 +13,13 @@ into --cache (default: <tmp>/gsa-upstream), and prints:
 * Claude-Code-Game-Studios (CCGS): commits since the recorded one, CHANGELOG headings newer than
   the recorded release, and the `.claude/skills` folders added, removed or renamed. The hub's
   CCGS-derived skills are hand-written syntheses, so CCGS changes are merged by hand.
+* agency-agents and pixelfx: hub skills that embed upstream text between
+  `<!-- agency:start -->` / `<!-- pixelfx:start -->` markers, whose upstream file changed, and new
+  agency-agents game-development agents the hub does not have yet.
 
 --apply-agas copies every changed AGAS skill that has no local edits over its hub folder and
-removes the files upstream deleted from it. New upstream skills are only reported: pick their
+removes the files upstream deleted from it. --apply-blocks refreshes the agency and pixelfx blocks
+whose hub text still matches the recorded upstream version (hub notes outside the markers stay). New upstream skills are only reported: pick their
 hub category, copy them, then update docs/UPSTREAM-SYNC.md, CLAUDE.md and README.md.
 
 Standard library only; needs git on PATH.
@@ -37,7 +41,12 @@ SYNC_DOC = REPO_ROOT / "docs" / "UPSTREAM-SYNC.md"
 UPSTREAMS = {
     "agas": "https://github.com/gamedev-skills/awesome-gamedev-agent-skills.git",
     "ccgs": "https://github.com/Donchitos/Claude-Code-Game-Studios.git",
+    "agency": "https://github.com/msitarzewski/agency-agents.git",
+    "pixelfx": "https://github.com/patch-gg/pixelfx.git",
 }
+# Hub skills that embed upstream text: marker tag -> (repo key, GitHub slug).
+BLOCK_SOURCES = {"agency": ("agency", "msitarzewski/agency-agents"), "pixelfx": ("pixelfx", "patch-gg/pixelfx")}
+SOURCE_RE = re.compile(r"<!-- Source: (\S+) (\S+) @ ([0-9a-f]{7,40})")
 
 
 def git(repo: Path, *args: str) -> str:
@@ -163,14 +172,70 @@ def report_ccgs(repo: Path, base: str, version: str) -> None:
     print("  Merge CCGS changes into the hub's CCGS-derived skills by hand (see docs/UPSTREAM-SYNC.md).\n")
 
 
+def upstream_block(tag: str, text: str) -> str:
+    """The part of an upstream file the hub embeds between its markers."""
+    if tag == "agency":
+        return text[4:].split("\n---\n", 1)[1].strip("\n")
+    start = text.index("## 1. Look for an existing effect first")
+    end = text.find("## 5. Publish it on Patch")
+    return text[start:end if end != -1 else None].strip("\n")
+
+
+def show(repo: Path, rev: str, path: str) -> str | None:
+    try:
+        return git(repo, "show", f"{rev}:{path}")
+    except subprocess.CalledProcessError:
+        return None
+
+
+def report_blocks(tag: str, repo: Path, base: str, apply: bool) -> None:
+    _, slug = BLOCK_SOURCES[tag]
+    head = git(repo, "rev-parse", "--short", "HEAD").strip()
+    print(f"== {slug}: recorded {base[:7]}, upstream HEAD {head}")
+    print(git(repo, "log", "--oneline", "--no-merges", f"{base}..HEAD") or "  (no new commits)")
+    tracked = set()
+    for skill in sorted((REPO_ROOT / "skills").glob("*/*/SKILL.md")):
+        text = skill.read_text(encoding="utf-8")
+        match = SOURCE_RE.search(text)
+        if not match or match.group(1) != slug:
+            continue
+        path, old_sha = match.group(2), match.group(3)
+        tracked.add(path)
+        begin, end = f"<!-- {tag}:start -->\n", f"<!-- {tag}:end -->"
+        inner = text[text.index(begin) + len(begin):text.index(end)].strip("\n")
+        now, then = show(repo, "HEAD", path), show(repo, old_sha, path)
+        name = skill.parent.name
+        if now is None:
+            print(f"  REMOVED upstream: {path} (hub skill {name})")
+            continue
+        if upstream_block(tag, now) == inner:
+            continue
+        if then is None or upstream_block(tag, then) != inner:
+            print(f"  CHANGED + LOCAL EDITS inside the block (merge by hand): {name} <- {path}")
+            continue
+        print(f"  CHANGED: {name} <- {path}")
+        if apply:
+            fresh = text[:text.index(begin) + len(begin)] + upstream_block(tag, now) + "\n" + text[text.index(end):]
+            fresh = fresh.replace(f"{path} @ {old_sha}", f"{path} @ {head}", 1)
+            skill.write_text(fresh, encoding="utf-8")
+    if tag == "agency":
+        for path in sorted(git(repo, "ls-tree", "-r", "--name-only", "HEAD", "--", "game-development").split()):
+            if path.endswith(".md") and path not in tracked:
+                print(f"  NEW game-development agent not in the hub: {path}")
+    print()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--cache", type=Path, default=Path(tempfile.gettempdir()) / "gsa-upstream")
     parser.add_argument("--apply-agas", action="store_true", help="overwrite unedited hub copies of changed AGAS skills")
+    parser.add_argument("--apply-blocks", action="store_true", help="refresh unedited agency/pixelfx blocks")
     args = parser.parse_args()
     text = SYNC_DOC.read_text(encoding="utf-8")
     report_agas(checkout(args.cache, "agas"), recorded("agas-commit", text), args.apply_agas)
     report_ccgs(checkout(args.cache, "ccgs"), recorded("ccgs-commit", text), recorded("ccgs-version", text))
+    for tag, (key, _) in BLOCK_SOURCES.items():
+        report_blocks(tag, checkout(args.cache, key), recorded(f"{key}-commit", text), args.apply_blocks)
     return 0
 
 

@@ -1,11 +1,11 @@
 ---
 name: game-studio-orchestrator
-description: Master game studio orchestrator and cross-engine skill router combining Claude-Code-Game-Studios 1.3 and awesome-gamedev-agent-skills 2.0 (118 skills across 12 engines plus Web, 15 disciplines, 9 genres, and studio workflows). Leads with "make me a game" (one-page brief, playable browser one-shot, change after play, grow into a project), then studio mode - the 3-tier hierarchy (Directors, Leads, Specialists), /team-* pipelines and the GDD ladder - when the project needs it. Fingerprints the engine and its pinned version, manages rigor modes and project.goal, and delegates to specialist skills and subagents. Use when starting or onboarding a game project, asking what to do next (/start, /next-step, /project-settings), or coordinating multi-discipline studio work (/team-combat, /team-assets, /team-ui, /team-level, /team-narrative, /team-prototype, /team-polish, /team-ship). Not for a single-engine API question (router) or writing a GDD alone (game-gdd-architect / game-docs).
+description: Master game studio orchestrator and cross-engine skill router combining Claude-Code-Game-Studios 1.3 and awesome-gamedev-agent-skills 2.0, agency-agents and pixelfx (125 skills, 12 engines plus Web). Leads with "make me a game" (one-page brief, playable browser one-shot, change after play, grow into a project), then studio mode - the 3-tier hierarchy (Directors, Leads, Specialists), /team-* pipelines and the GDD ladder - when the project needs it. Fingerprints the engine and its pinned version, manages rigor modes and project.goal, and delegates to specialist skills and subagents. Use when starting or onboarding a game project, asking what to do next (/start, /next-step, /project-settings), or coordinating multi-discipline studio work (/team-combat, /team-assets, /team-ui, /team-level, /team-narrative, /team-prototype, /team-polish, /team-ship). Not for a single-engine API question (router) or writing a GDD alone (game-gdd-architect / game-docs).
 ---
 # Game Studio Orchestrator
 
 Master coordinator that combines Claude-Code-Game-Studios' (CCGS) studio process with the
-awesome-gamedev-agent-skills (AGAS) router across 12 engines plus plain Web, and 118 skills.
+awesome-gamedev-agent-skills (AGAS) router across 12 engines plus plain Web, agency-agents specialist personas and the pixelfx VFX library: 125 skills.
 The default road is **make a playable game first**; the 3-tier studio (CCGS calls it
 *studio mode*) is the heavier road for projects that need it.
 
@@ -66,19 +66,19 @@ Use studio mode when the project needs it: a team, `project.goal` of `sell`, `ea
 `Engine Fundamentals -> Cross-Engine Discipline -> Genre Blueprint -> Studio & Shipping Workflow`
 
 - **Engine Skill** owns concrete API syntax, node/component lifecycles, and import/export settings.
-- **Discipline Skill** owns portable algorithms and pipelines (`create-game-assets`, `game-ai`, `ai-behavior-trees-utility-ai`, `procedural-gen`, `dialogue-systems`, `save-systems`, `audio-design`, `shader-programming`, `physics-tuning`, `level-design`, `input-systems`, `game-feel`, `camera-systems`, `game-ui-ux`, `performance-optimization`).
+- **Discipline Skill** owns portable algorithms and pipelines (`create-game-assets`, `game-ai`, `ai-behavior-trees-utility-ai`, `procedural-gen`, `dialogue-systems`, `save-systems`, `audio-design`, `shader-programming`, `physics-tuning`, `level-design`, `input-systems`, `game-feel`, `camera-systems`, `game-ui-ux`, `performance-optimization`, and `pixelfx` for code-drawn pixel art VFX).
 - **Genre Blueprint** owns structural glue across systems (`platformer`, `roguelike`, `rpg`, `fps-shooter`, `tower-defense`, `card-game`, `visual-novel`, `survival-crafting`, `puzzle`).
 - **Workflow Skill** owns studio process and store delivery (`game-gdd-architect`, `game-docs`, `game-production-scrum`, `game-qa-playtest`, `game-release-liveops`, `game-jam`, `prototype-fast`, `steam-publish`, `itch-publish`).
 
 ### 4. Execute Cross-Functional Strike Teams (`/team-*`)
 
-- **Team Combat (`/team-combat`)**: `game-gdd-architect` + `game-systems-ai-programmer` + `ai-behavior-trees-utility-ai` + Engine Scripter + `game-feel` + `camera-systems` + `generate2dsprite`/`video2dsprite` + `game-qa-playtest`.
-- **Team Assets (`/team-assets`)**: `create-game-assets` + `generate2dsprite` + `video2dsprite` + `generate2dmap` + Engine Importer + `game-qa-playtest` (lock `art-direction-brief.md` and `asset-manifest.json`, approve one visual target, produce asset families, run raster QA, verify in-game).
-- **Team UI (`/team-ui`)**: `ui-designer` + `game-ui-ux` + `input-systems` + Engine UI Skill (`godot-ui-control` / `roblox-ui`) + `game-qa-playtest`.
+- **Team Combat (`/team-combat`)**: `game-gdd-architect` + `game-systems-ai-programmer` + `ai-behavior-trees-utility-ai` + Engine Scripter + `game-feel` + `camera-systems` + `generate2dsprite`/`video2dsprite` + `pixelfx` (hits, moves, status effects, with wind-up and hit-stop timing) + `game-qa-playtest` + `evidence-collector`.
+- **Team Assets (`/team-assets`)**: `create-game-assets` + `generate2dsprite` + `video2dsprite` + `generate2dmap` + `pixelfx` (VFX sheets) + `image-prompt-engineer` + Engine Importer + `game-qa-playtest` (lock `art-direction-brief.md` and `asset-manifest.json`, approve one visual target, produce asset families, run raster QA, verify in-game).
+- **Team UI (`/team-ui`)**: `ui-designer` + `game-ui-ux` + `input-systems` + Engine UI Skill (`godot-ui-control` / `roblox-ui`) + `accessibility-auditor` + `ux-researcher` + `game-qa-playtest`.
 - **Team Level (`/team-level`)**: `level-designer` + `level-design` + `procedural-gen` + `generate2dmap` + Engine Tilemap/World Skill (`godot-tilemap` / `unity-tilemap-2d` / `unreal-world-builder`).
 - **Team Narrative (`/team-narrative`)**: `narrative-designer` + `dialogue-systems` + `visual-novel` + `game-gdd-architect` + `game-release-liveops` (`/localize`).
 - **Team Prototype & Jam (`/team-prototype`, `/team-jam`)**: the one-shot road (step 2) + `prototype-fast` + `game-jam` + Genre Blueprint + `input-systems` + `game-feel`.
-- **Team Polish & Ship (`/team-polish`, `/team-ship`)**: `performance-optimization` + `game-feel` + `audio-design` + `godot-gdscript-headless-testing` + `steam-publish` / `itch-publish` + `unity-build-size` + `game-release-liveops`; finish with `/cut` (see `game-production-scrum`).
+- **Team Polish & Ship (`/team-polish`, `/team-ship`)**: `performance-optimization` + `game-feel` + `pixelfx` + `audio-design` + `godot-gdscript-headless-testing` + `steam-publish` / `itch-publish` + `unity-build-size` + `game-release-liveops`; `reality-checker` before a gate or store submission; finish with `/cut` (see `game-production-scrum`).
 
 Since CCGS 1.3.0, `/design-system`, `/art-bible` (except its art-director sections),
 `/architecture-review` and `/code-review` do their specialists' work in the conversation under
@@ -100,7 +100,7 @@ dismissed question is not an answer.
 
 ## Gotchas
 
-- Never bulk-load all 118 skills; load only the detected engine skill plus the 1-3 matching discipline/genre/workflow skills for the active task.
+- Never bulk-load all 125 skills; load only the detected engine skill plus the 1-3 matching discipline/genre/workflow skills for the active task.
 - Never run `/setup-engine` inside a one-shot, and never offer to move a one-shot made before an engine was set onto that engine.
 - Read design docs over ~40 KB (`design/`, `docs/architecture/`, `production/session-state/`) by section, never as one whole-file read.
 - No agent files, opens or comments on an issue or pull request in an engine, plugin or vendor repository, even when asked; write a draft for the user to submit.

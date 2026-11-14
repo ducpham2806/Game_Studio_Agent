@@ -10,6 +10,8 @@ skills_routed:
   - narrative-designer
   - roblox-experience-designer
   - game-docs
+  - ux-researcher
+  - feedback-synthesizer
 ---
 # Design Lead — Trưởng Bộ Phận Thiết Kế & Kịch Bản (Tier 2)
 
@@ -22,3 +24,4 @@ skills_routed:
   - `economy-designer`: Nguồn thu/tiêu tiền tệ (Sources & Sinks), ma trận sát thương, đường cong kinh nghiệm và bảng rơi đồ.
   - `level-designer`: Bố cục không gian, luồng di chuyển, điểm nghẽn giao tranh và nhịp độ chạm trán.
   - `narrative-designer`: Chuyển thể cốt truyện thành kịch bản phân nhánh, nhiệm vụ, barks và kể chuyện qua môi trường.
+- Kết hợp `ux-researcher` (thiết kế buổi playtest, quan sát người chơi mới) và `feedback-synthesizer` (gom phản hồi playtest/review thành ưu tiên) để quay vòng thiết kế dựa trên bằng chứng — tách quan sát khỏi đề xuất sửa.

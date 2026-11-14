@@ -1,16 +1,20 @@
 # Upstream sync
 
-This hub merges two upstream repositories. This page records which commit of each was synced,
+This hub merges four upstream repositories. This page records which commit of each was synced,
 what the hub changed on top, and how to sync again.
 
 <!-- agas-commit: c6ca6c41c839b68319ffc08430b99ab768debc32 -->
 <!-- ccgs-commit: abc0de79d6ceb0b5d7aa693945849b3937afbe6a -->
 <!-- ccgs-version: 1.3.0 -->
+<!-- agency-commit: 8ae6164602c95ca78828b148b9052460ee426885 -->
+<!-- pixelfx-commit: 5294518ce7c72e48b6100a744596e0acf57f2826 -->
 
 | Upstream | Synced release | Commit | Synced on | License |
 |----------|----------------|--------|-----------|---------|
 | [gamedev-skills/awesome-gamedev-agent-skills](https://github.com/gamedev-skills/awesome-gamedev-agent-skills) (AGAS) | v2.0.0 (2026-11-11) + README commits to 2026-11-12 | `c6ca6c4` | 2026-11-14 | Apache-2.0 |
 | [Donchitos/Claude-Code-Game-Studios](https://github.com/Donchitos/Claude-Code-Game-Studios) (CCGS) | v1.3.0 (2026-11-09) | `abc0de7` | 2026-11-14 | MIT |
+| [msitarzewski/agency-agents](https://github.com/msitarzewski/agency-agents) | main (2026-11-08) | `8ae6164` | 2026-11-14 | MIT (Copyright (c) 2025 AgentLand Contributors) |
+| [patch-gg/pixelfx](https://github.com/patch-gg/pixelfx) | v0.3.1 (2026-11-12) | `5294518` | 2026-11-14 | MIT (Patch, Hugo Duprez; Hollow Crown notice; the Patch Pixel font is not MIT) |
 
 Previous AGAS snapshot: `19d93f9` (2026-10-28, the Roblox simulator-economy merge). Before this
 sync every one of the 78 AGAS skill folders in the hub was byte-identical to that commit, so the
@@ -21,11 +25,14 @@ update replaced them without losing hub edits.
 ```bash
 python3 scripts/check-upstream.py              # report only
 python3 scripts/check-upstream.py --apply-agas # also update unedited AGAS skill copies
+python3 scripts/check-upstream.py --apply-blocks # also refresh unedited agency/pixelfx blocks
 python3 scripts/validate-skills.py             # then validate the hub
 ```
 
-`check-upstream.py` never overwrites an AGAS skill the hub edited locally; it reports it as
-"CHANGED + LOCAL EDITS". After applying, update the commit markers above, the skill lists below,
+`check-upstream.py` never overwrites an AGAS skill, or an agency/pixelfx block, that the hub
+edited locally; it reports it as "CHANGED + LOCAL EDITS". For agency and pixelfx it refreshes only
+the text between the `<!-- agency:start/end -->` or `<!-- pixelfx:start/end -->` markers and the
+`@ <commit>` in the skill's Source comment; the hub's frontmatter, notes and Gotchas stay. After applying, update the commit markers above, the skill lists below,
 and the counts in `CLAUDE.md`, `README.md`, `init-game-project.sh` and
 `skills/00-orchestration-and-workflows/game-studio-orchestrator/SKILL.md`.
 
@@ -86,24 +93,12 @@ Upstream-to-hub category map: `workflows` → 00, `disciplines` → 01/02/07 by 
 - Not copied: upstream `tests/` (they import upstream paths), `CONTRIBUTING.md`, `NOTICE`,
   `.claude-plugin/`, `.github/`, sponsor images.
 
-## CCGS: hub skills derived from it (38 hub-only skills)
+## CCGS: hub skills derived from it (6)
 
 CCGS is a full `.claude/` framework (78 skills, 49 agents, hooks, helper scripts). The hub does
-not vendor it; it condenses its workflows into six skills and the agents in `agents/`, next to
-32 specialist skills of its own:
-
-- **CCGS-derived:** `game-studio-orchestrator` (with `references/one-shot-flow.md`),
-  `game-gdd-architect`, `game-production-scrum`, `game-qa-playtest`, `game-release-liveops`,
-  `game-systems-ai-programmer`.
-- **Hub specialists:** `game-designer`, `economy-designer`, `level-designer`,
-  `narrative-designer`, `technical-artist`, `ui-designer`, `blender-addon-engineer`,
-  `game-audio-engineer`, `generate2dsprite`, `video2dsprite`, `generate2dmap`, `codeart2d`,
-  `godot-gameplay-scripter`, `godot-shader-developer`, `godot-multiplayer-engineer`,
-  `unity-architect`, `unity-shader-graph-artist`, `unity-multiplayer-engineer`,
-  `unity-editor-tool-developer`, `unreal-systems-engineer`, `unreal-technical-artist`,
-  `unreal-multiplayer-architect`, `unreal-world-builder`, `roblox-systems-scripter`,
-  `roblox-experience-designer`, `roblox-avatar-creator`, `backend-architect`, `code-reviewer`,
-  `content-creator`, `frontend-developer`, `growth-hacker`, `seo-specialist`.
+not vendor it; it condenses its workflows into six skills and the agents in `agents/`:
+`game-studio-orchestrator` (with `references/one-shot-flow.md`), `game-gdd-architect`,
+`game-production-scrum`, `game-qa-playtest`, `game-release-liveops`, `game-systems-ai-programmer`.
 
 ### What was merged from CCGS 1.2.0 and 1.3.0 (this sync)
 
@@ -125,18 +120,51 @@ Not merged (CCGS-framework specific): hooks and `settings.json` rules, the 69 ge
 update-notice hook, and Windows hook forms. The hub's skills describe those steps so they work
 with the session's own tools.
 
-## Reference repos under review (not yet integrated)
+## agency-agents: specialist skills (34)
 
-Read on 2026-11-14 at the commits below. Nothing from them is in the hub yet beyond what the
-table says; the integration choice is pending with the hub owner.
+Each of these skills keeps the hub's own frontmatter (a description with a `Not for` clause naming
+the neighbouring skill), embeds the upstream agent text verbatim between
+`<!-- agency:start -->` and `<!-- agency:end -->`, and ends with hub Gotchas: the AGAS engine skill
+and `docs/VERSION-SUPPORT.md` win on API and version details, gameplay numbers go to data files,
+the Look Rule, persona "memory" is `production/session-state/active.md`, and outward-facing
+marketing needs the user's yes. Upstream frontmatter (`color`, `emoji`, `vibe`, `tools`) is dropped.
 
-| Repo | Commit | License | What it is | Relation to the hub |
-|------|--------|---------|------------|---------------------|
-| [patch-gg/pixelfx](https://github.com/patch-gg/pixelfx) | `5294518` (v0.3.1, 2026-11-12) | MIT (+ Hugo Duprez / Hollow Crown MIT notices; the Patch Pixel font is not MIT) | 244 code-drawn pixel-art VFX in 21 categories (fire, explosions, magic, impacts, UI, transitions, 12 full attack "moves"...), each one JS file drawing into a color + additive light buffer, seeded and loop-safe; "acts" carry wind-up, hit-stop, shake and target-reaction timing; Node-only tools render contact sheets/GIFs and export transparent sprite sheets with Aseprite-style JSON for Godot, Unity, Phaser, Defold, LÖVE, Bevy; a Claude skill with a draft → render → look → refine loop | New. Fits `/team-combat`, `/team-polish`, `/team-assets`, `game-feel` (hit-stop/shake data), `codeart2d`, `generate2dsprite` (FX sheets) and the one-shot rule "every figure drawn in code, no emoji". Its skill's "publish on Patch" section (installs a global CLI) would be dropped in favour of `itch-publish` / `steam-publish`. Its tools were read, not run, in this review. |
-| [msitarzewski/agency-agents](https://github.com/msitarzewski/agency-agents) | `8ae6164` (2026-11-08) | MIT | ~310 agent personas in 18 divisions; `game-development/` has 20 agents (Godot, Unity, Unreal, Roblox, Blender, designers, technical artist, audio) | **Already the source of 28 hub specialist skills** (the 20 game-development agents plus `ui-designer`, `backend-architect`, `code-reviewer`, `frontend-developer`, `content-creator`, `growth-hacker`, `seo-specialist`). The hub copies are 14-29-line summaries of 53-385-line originals, and miss the originals' rules, code and deliverables, including the 2026-10-18 correctness fixes. Game-relevant agents the hub lacks: `testing-accessibility-auditor`, `testing-evidence-collector`, `testing-reality-checker`, `design-ux-researcher`, `product-feedback-synthesizer`, `marketing-app-store-optimizer`, `marketing-reddit-community-builder`, `marketing-developer-community-builder`, `design-image-prompt-engineer`, `xr-immersive-developer`. |
+| Hub category | Skill ← agency-agents file |
+|--------------|----------------------------|
+| `01-design-and-narrative` | `game-designer`, `economy-designer`, `level-designer`, `narrative-designer` ← `game-development/*.md` (`narrative-designer` also keeps the hub's story-to-game adaptation and rewrite workflows after the block) |
+| `02-art-animation-ui-audio` | `technical-artist`, `game-audio-engineer` ← `game-development/`; `blender-addon-engineer` ← `game-development/blender/`; `ui-designer`, `ux-researcher`, `image-prompt-engineer` ← `design/design-*.md` |
+| `03-engine-godot4` | `godot-gameplay-scripter`, `godot-shader-developer`, `godot-multiplayer-engineer` ← `game-development/godot/` |
+| `04-engine-unity` | `unity-architect`, `unity-shader-graph-artist`, `unity-multiplayer-engineer`, `unity-editor-tool-developer` ← `game-development/unity/` |
+| `05-engine-unreal5` | `unreal-systems-engineer`, `unreal-technical-artist`, `unreal-multiplayer-architect`, `unreal-world-builder` ← `game-development/unreal-engine/` |
+| `06-engine-roblox` | `roblox-systems-scripter`, `roblox-experience-designer`, `roblox-avatar-creator` ← `game-development/roblox-studio/` |
+| `07-quality-backend-publishing` | `backend-architect`, `code-reviewer`, `frontend-developer` ← `engineering/engineering-*.md`; `content-creator`, `growth-hacker`, `seo-specialist` ← `marketing/marketing-*.md`; `accessibility-auditor`, `evidence-collector`, `reality-checker` ← `testing/testing-*.md`; `feedback-synthesizer` ← `product/product-feedback-synthesizer.md` |
 
-`generate2dsprite`, `video2dsprite`, `generate2dmap` and `codeart2d` come from neither repo; their
-source is still unrecorded.
+Before 2026-11-14 the 28 older ones were 14-29-line summaries of these agents (53-385 lines
+upstream) and missed their rules, examples, deliverables and the 2026-10-18 correctness fixes.
+The six new ones (`accessibility-auditor`, `evidence-collector`, `reality-checker`,
+`feedback-synthesizer`, `ux-researcher`, `image-prompt-engineer`) were added the same day.
+The testing agents were written for websites; their Gotchas map the upstream commands
+(`./qa-playwright-capture.sh`, `resources/views/`) to game evidence under `production/qa/evidence/`.
+
+Considered and not added (2026-11-14): `marketing-app-store-optimizer`,
+`marketing-reddit-community-builder`, `marketing-developer-community-builder`,
+`xr-immersive-developer`. `check-upstream.py` lists any new `game-development/` agent upstream.
+
+## pixelfx: `02-art-animation-ui-audio/pixelfx`
+
+The hub skill embeds sections 1-4 of upstream `skills/pixelfx/SKILL.md` between
+`<!-- pixelfx:start -->` and `<!-- pixelfx:end -->`. Hub changes: frontmatter reduced to `name` and
+`description` (with a `Not for` clause); "Before anything" clones the library at the pinned commit
+into a gitignored `.pixelfx/` folder in the game project instead of vendoring it into the hub (the
+checkout is about 15 MB, 12 MB of it README media); upstream section 5 "Publish it on Patch" (it
+installs a global CLI with `curl | sh`) is left out in favour of `itch-publish` / `steam-publish`;
+"In this studio" ties output to `asset-manifest.json`, data-driven options, hit-stop ownership and
+the strike teams; Gotchas cover pooling, import filtering, licensing and the non-MIT font.
+The library's Node tools were read but not executed during this integration; the first real use
+should render one effect (`node tools/render.mjs fire/torch`) and look at the contact sheet.
+
+`generate2dsprite`, `video2dsprite`, `generate2dmap` and `codeart2d` come from none of these repos;
+their source is still unrecorded.
 
 ## Other credited sources
 

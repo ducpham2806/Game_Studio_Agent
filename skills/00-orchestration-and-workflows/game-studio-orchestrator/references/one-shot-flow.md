@@ -68,6 +68,7 @@ How to build:
   one left out.
 - Day-one screens: start (title + controls) always; pause for real time; game over + restart
   for hard failure; results when it ends; mute when it has sound.
+- Effects (hits, explosions, pickups, transitions) can come from `pixelfx`: its code-drawn effects meet the no-emoji rule and run in a plain canvas. Copy `src/core` and only the effects used into the game folder, with pixelfx's `LICENSE` and `NOTICE.md`.
 - Write no robot player, simulator or auto-tuner. The user's play is the balance check.
 
 ## 4. Small check

@@ -68,3 +68,4 @@ Analyze playtest observations using objective behavioral signals alongside playe
 - Eliminate flaky tests (`/test-flakiness`) caused by unseeded `randf()` calls or frame-timing race conditions by injecting deterministic RNG seeds and awaiting explicit signals in tests.
 - A bug in an engine, plugin or vendor tool is written up as a draft for the user to submit; no agent opens or comments on an upstream issue or pull request, even when asked.
 - A browser check that cannot start (no headless Chromium, sandbox refused the socket) is reported as NOT ASSESSED with the reason, never as passed.
+- For a skeptical second pass, hand off: `evidence-collector` re-checks a story's evidence, `reality-checker` judges milestone or release readiness, `accessibility-auditor` audits subtitles, remapping, color and flashes, and `feedback-synthesizer` turns playtest notes and reviews into ranked themes.
