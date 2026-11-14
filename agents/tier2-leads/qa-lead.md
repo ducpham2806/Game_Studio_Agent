@@ -15,3 +15,6 @@ skills_routed:
   3. `tests/config/`: Kiểm tra toàn vẹn dữ liệu JSON/Resource và đường dẫn tài nguyên.
   4. `tests/soak/`: Kiểm thử chịu tải thời gian dài (spawn hàng trăm quái vật, chuyển cảnh liên tục) để phát hiện rò rỉ bộ nhớ.
 - Thực thi **Quy tắc Kiểm tra Trực quan (The Look Rule)**: Mọi thay đổi về giao diện, hoạt ảnh, bản đồ hoặc hiệu ứng đều phải được chạy thực tế và lưu ảnh chụp/log tại `production/qa/evidence/`.
+- **Small Check cho one-shot trình duyệt (CCGS 1.3)**: ~5 phút trên trình duyệt headless — mở trang không lỗi console, vài phím bấm kịch bản chứng minh game phản hồi, 1 ảnh chụp đối chiếu với `design/game-brief.md`, 4 dòng kết quả (boots / responds / keeps your words / không dùng emoji làm hình). Không viết bot tự chơi hay tự cân bằng độ khó; bàn giao luôn ghi "Not yet played by a person".
+- **Stamp bằng chứng**: Mỗi bộ ảnh chụp có `stamp.txt` liệt kê file được chứng minh; `/test-evidence-review` báo "re-capture it" khi các file đó đổi sau lúc chụp.
+- `/bug-report` chỉ viết bản nháp; không agent nào tự mở issue/PR trên repo Engine, plugin hay nhà cung cấp.
