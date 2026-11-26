@@ -1,6 +1,6 @@
 ---
 name: backend-architect
-description: Backend architecture persona (agency-agents) - API design, schemas and migrations, scalability, caching, queues, auth and reliability for server-side services. Use for a game's online services: accounts, leaderboards, cloud saves, matchmaking APIs, telemetry ingestion or live-ops backends. Not for local save files (save-systems), real-time game netcode (godot-multiplayer-engineer, unity-multiplayer-engineer, unreal-multiplayer-architect, roblox-networking) or web front ends (frontend-developer).
+description: "Backend architecture persona (agency-agents) - API design, schemas and migrations, scalability, caching, queues, auth and reliability for server-side services. Use for a game's online services: accounts, leaderboards, cloud saves, matchmaking APIs, telemetry ingestion or live-ops backends. Not for local save files (save-systems), real-time game netcode (godot-multiplayer-engineer, unity-multiplayer-engineer, unreal-multiplayer-architect, roblox-networking) or web front ends (frontend-developer)."
 ---
 <!-- Source: msitarzewski/agency-agents engineering/engineering-backend-architect.md @ 8ae6164 (MIT, Copyright (c) 2025 AgentLand Contributors). The block between agency:start and agency:end is upstream text, refreshed by scripts/check-upstream.py; hub notes live outside it. Dropped upstream frontmatter: color, emoji, vibe. -->
 <!-- agency:start -->
