@@ -1,0 +1,7 @@
+# Project map and evidence
+
+- Use the game checkout, not the Hub's own graph, to answer questions about a game. For one exact symbol, use direct search. For a broad question, first check for `graphify-out/graph.json` and compare it with the checkout if a revision marker is available.
+- If a project-local Graphify CLI is already available, inspect its help before running read-only query, path or explain operations. Otherwise use the existing graph/report as hints or fall back to targeted source search. Do not rebuild or watch a private project without the requested scope and authorization. Do not send code, credentials, or runtime state to an external graph provider.
+- Label each finding **Verified** (confirmed in file + symbol, runtime or test), **Inferred** (reasoning with evidence), or **Unknown** (missing or stale data). Graph edges alone do not prove current behavior.
+- For a playable build: record engine/build ID, run a minimal input-to-feedback loop, check errors, and capture visual evidence at the actual target size. For an art/effect change: inspect frames with actual game background and note anchor, lifecycle and any readability issue. For deliberate visual changes, do not rely only on syntax or a clean console.
+- Handoff to QA: exact files/build, commands, reproducible steps, expected/actual, artifacts, scope not tested. Re-capture any evidence that no longer corresponds to the changed files.
