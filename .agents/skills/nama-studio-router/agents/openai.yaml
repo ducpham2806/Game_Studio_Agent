@@ -1,0 +1,4 @@
+interface:
+  display_name: "Nam Á Studio Router"
+  short_description: "Điều phối agent và kiểm chứng đầu ra"
+  default_prompt: "Dùng $nama-studio-router để chia vai, lập kế hoạch và kiểm kết quả."
